@@ -20,15 +20,23 @@ To do this, the injector:
 
 ```
 Injector (injector.exe)
-    |
-    |--> Opens target process
-    |--> Allocates memory in target
-    |--> Writes DLL path (malicious.dll)
-    |--> Creates thread in target to call LoadLibraryA
-           |
-           --> Target process loads malicious.dll
-                  |
-                  --> DllMain runs (your payload)
+     │
+     ├─▶ 1. Open the target process
+     │      → Use OpenProcess() to get a handle
+     │
+     ├─▶ 2. Allocate memory inside the target process
+     │      → Use VirtualAllocEx() for space to store DLL path
+     │
+     ├─▶ 3. Write the DLL path to that memory
+     │      → Use WriteProcessMemory()
+     │
+     ├─▶ 4. Create a remote thread in the target
+     │      → Use CreateRemoteThread() to run LoadLibraryA
+     │
+     └─▶ 5. LoadLibraryA loads your DLL (e.g., malicious.dll)
+            │
+            └─▶ Target process executes DllMain() in your DLL
+                   → Your payload runs here!
 ```
 
 **Typical 4-Step API Flow for DLL Injection**
