@@ -39,7 +39,7 @@ Injector (injector.exe)
 | 3     | WriteProcessMemory | Write the DLL path into the allocated memory |
 | 4     | CreateRemoteThread | Start a remote thread to load the DLL |
 
-## Simulation - mavinject.exe and c2cURL.dll
+## Simulation - mavinject.exe and message.dll
 Let's try a simple DLL Injection simulation.
 
 This scenario is an example of using mavinject, a legitimate tool from Microsoft Application Virtualization (App-V), to inject a DLL into a running process (Notepad) using PowerShell.
@@ -56,18 +56,26 @@ You can execute the following code in PowerShell.
 $mypid = (Start-Process notepad -PassThru).id
 mavinject $mypid /INJECTRUNNING "<DLL file path>"
 ```
+
 > [!Important]
-> During this time, I created a simple DLL file called `c2cURL.dll` <br> 
+> During this time, I created a simple DLL file called `message.dll` <br> 
 > You can use it for your simulation, but **please test it in a sandbox environment just to be safe.**
 >
-> **Download : [c2cURL.dll](https://github.com/LearningKijo/SecurityResearch/blob/main/Simulation/c2cURL.dll)**
+> **Download : [message.dll](https://github.com/LearningKijo/SecurityResearch/blob/main/Simulation/message.dll)**
 
-Let me explain what `c2cURL.dll` does when it is loaded.
-- When `c2cURL.dll` is loaded into a process, it automatically connects to a specific URL [`https://commandcontrol.smartscreentestratings.com`] using the Windows Internet API.
-- The URL is a test url for Microsoft Defender for Endpoint, Network Protection C2 detection.
+Let me explain what `message.dll` does when it is loaded.
 
-![image](https://github.com/user-attachments/assets/df177ecf-ee69-47d8-86bf-38dbe4d04206)
-> c2cURL.dll, written by C Language
+When this DLL is injected into a process (like Notepad), it immediately shows a message box saying:
+- [x] "DLL Injection Successful!"
+      
+![image](https://github.com/user-attachments/assets/76726682-3ceb-45d0-a8a3-5f84b61be4db)
+
+When the process exits or the DLL is unloaded, it shows another message box:
+- [x] "DLL Unloaded!"
+      
+![image](https://github.com/user-attachments/assets/585afa01-78b6-4b5a-999a-d09937904b91)
+
+> message.dll, written by C Language
 
 ### Microsoft Defender for Endpoint detection
 In the case of simulating the above scenario on MDE onboarded device, you might see the following alerts;
