@@ -67,15 +67,62 @@ Let me explain what `message.dll` does when it is loaded.
 
 When this DLL is injected into a process (like Notepad), it immediately shows a message box saying:
 - [x] "DLL Injection Successful!"
-      
-![image](https://github.com/user-attachments/assets/76726682-3ceb-45d0-a8a3-5f84b61be4db)
 
 When the process exits or the DLL is unloaded, it shows another message box:
 - [x] "DLL Unloaded!"
       
+![image](https://github.com/user-attachments/assets/76726682-3ceb-45d0-a8a3-5f84b61be4db)
+
 ![image](https://github.com/user-attachments/assets/585afa01-78b6-4b5a-999a-d09937904b91)
 
-> message.dll, written by C Language
+### message.dll 
+Basic DLL file example using MessageBox (C Language)
+```c
+#include <windows.h>
+#include <stdio.h>
+#include "pch.h"
+
+// This function is automatically called when the DLL is loaded or unloaded by a process.
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
+    if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+        // This block is executed when the DLL is loaded into the process.
+        // Show a message box indicating that the DLL was successfully injected.
+        MessageBoxW(NULL, L"DLL Injection Successful!", L"DLL Injection Test", MB_OK);
+
+        // Output a debug message indicating success. This can be viewed using debugging tools.
+        OutputDebugString(L"DLL Injection Successful!\n");
+
+        // Check if the module handle (hModule) is NULL, which indicates an error in loading the DLL.
+        if (hModule == NULL) {
+            // Show an error message if the DLL failed to load.
+            MessageBoxW(NULL, L"Failed to load DLL!", L"Error", MB_ICONERROR);
+            // Output an error message to the debug log.
+            OutputDebugString(L"Error: Failed to load DLL!\n");
+            // Return FALSE to indicate failure to load the DLL.
+            return FALSE;
+        }
+    }
+
+    else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
+        // This block is executed when the DLL is unloaded from the process.
+        // Show a message box indicating that the DLL has been successfully unloaded.
+        MessageBoxW(NULL, L"DLL Unloaded!", L"DLL Injection Test", MB_OK);
+
+        // Output a debug message indicating the DLL has been unloaded.
+        OutputDebugString(L"DLL Unloaded!\n");
+
+        // Optionally, handle cases where the DLL is unloaded unexpectedly.
+        if (lpReserved == NULL) {
+            // Show an error message if there was an issue during the unload process.
+            MessageBoxW(NULL, L"Error occurred during DLL unloading!", L"Unload Error", MB_ICONERROR);
+            // Output an error message to the debug log.
+            OutputDebugString(L"Error: Issue during DLL unloading!\n");
+        }
+    }
+    // Return TRUE to indicate that the DLL has been loaded or unloaded successfully.
+    return TRUE;
+}
+```
 
 ### Microsoft Defender for Endpoint detection
 In the case of simulating the above scenario on MDE onboarded device, you might see the following alerts;
