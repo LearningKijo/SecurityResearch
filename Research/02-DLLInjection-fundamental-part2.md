@@ -11,10 +11,10 @@ Not to mention, we need Visual Studio (IDE) to write code and build the injector
 
 In this Part 2, as the first step toward writing the injector, what I need to do is write a function to get a process PID before moving on to the injection part. Therefore, I’m planning to cover the following points in Part 2:
 
-1. The code architecture for GetTargetPid
-2. Challenges I faced at each step in C language
-3. Sharing the function result
-4. Sharing the complete C code
+1. [The code architecture for GetTargetPid](https://github.com/LearningKijo/SecurityResearch/blob/main/Research/02-DLLInjection-fundamental-part2.md#1-the-code-architecture-for-gettargetpid)
+2. [Challenges I faced at each step in C language](https://github.com/LearningKijo/SecurityResearch/blob/main/Research/02-DLLInjection-fundamental-part2.md#2-challenges-i-faced-at-each-step-in-c-language)
+3. [Sharing the function result](https://github.com/LearningKijo/SecurityResearch/blob/main/Research/02-DLLInjection-fundamental-part2.md#3-sharing-the-function-result)
+4. [Sharing the complete C code](https://github.com/LearningKijo/SecurityResearch/blob/main/Research/02-DLLInjection-fundamental-part2.md#4-sharing-the-complete-c-code)
 
 --- 
 ## 1. The code architecture for GetTargetPid
