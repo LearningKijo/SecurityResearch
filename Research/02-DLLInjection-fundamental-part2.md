@@ -105,7 +105,6 @@ GetTargetPid(VOID) {
 	if (hSnapShot == INVALID_HANDLE_VALUE) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
-		return 0;
 	}
 }
 ```
@@ -115,8 +114,8 @@ GetTargetPid(VOID) {
 
 The A version uses ANSI (single-byte) encoding, while the W version uses Unicode (UTF-16), which is better for international character support and modern Windows development.
 
-- `Process32FirstW` : ASCII
-- `Process32FirstA` : Unicode
+- `Process32FirstA` : ASCII
+- `Process32FirstW` : Unicode
 
 This is my memo to look back :)
 | #                    | ASCII                             | Unicode                                        |
@@ -180,7 +179,6 @@ Because of the case mismatch, the comparison failed — it didn’t find the pro
 	if (hSnapShot == INVALID_HANDLE_VALUE) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
-		return 0;
 	}
 
 Cleanup:
@@ -213,7 +211,6 @@ GetTargetPid(VOID) {
 	if (hSnapShot == INVALID_HANDLE_VALUE) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
-		return 0;
 	}
 
 	// Set the size of the structure before using it
@@ -241,7 +238,7 @@ Cleanup:
 		(VOID)CloseHandle(hSnapShot);
 		hSnapShot = NULL;
 	}
-
+	return dwResult;
 }
 
 INT 
