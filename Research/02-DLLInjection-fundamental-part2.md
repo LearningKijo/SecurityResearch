@@ -174,6 +174,8 @@ Because of the case mismatch, the comparison failed — it didn’t find the pro
   2. **goto** : goto in C lets you jump to a specific part of your code using a label. It’s most useful for error handling and cleanup, allowing you to centralize resource release (like closing files). 
 
 ```c
+	DWORD dwResult = 0; // initialize result variable to 0
+
 	// Get a snapshot of all processes in the system
 	hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
 	if (hSnapShot == INVALID_HANDLE_VALUE) {
@@ -188,6 +190,7 @@ Cleanup:
 		(VOID)CloseHandle(hSnapShot);
 		hSnapShot = NULL;
 	}
+	return dwResult;
 ```
 
 ## 3. Sharing the function result
