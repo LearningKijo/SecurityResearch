@@ -200,15 +200,12 @@ Let's set a breakpoint at each step we want to confirm in the GetTargetPid funct
 
 ![image](https://github.com/user-attachments/assets/18a1471c-88ed-4349-8d44-0d9bd8ef0007)
 
-2. Secondly, we can see that `Process32FirstW` is working correctly.
-   It retrieves information about the first process in the snapshot and stores the process name (the executable file name) in the szExeFile array.
-
-![image](https://github.com/user-attachments/assets/edd4cdd7-742a-419a-83c7-41706bce7180)
-
-3. Lastly, after the do-while loop with the Notepad string filtering, I was able to retrieve the Notepad process's PID.
+2. Lastly, after the do-while loop with the Notepad string filtering, I was able to retrieve the Notepad process's PID.
    I then compared the PID with the one in Task Manager, and everything looks good.
-   
-![image](https://github.com/user-attachments/assets/165beb2f-5335-4b88-8808-8d9358d72ed9)
+
+![image](https://github.com/user-attachments/assets/3c0733a3-addd-4d20-b1b2-df7ea1761f80)
+
+![image](https://github.com/user-attachments/assets/2c74fbdc-c464-4c96-870d-e49ad46b3a9b)
 
 ## 4. Sharing the complete C code
 ```c
