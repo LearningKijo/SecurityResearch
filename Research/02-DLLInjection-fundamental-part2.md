@@ -102,7 +102,7 @@ GetTargetPid(VOID) {
 	
 	// Get a snapshot of all processes in the system
 	hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
-	if (hSnapShot == INVALID_HANDLE_VALUE) {
+	if (INVALID_HANDLE_VALUE == hSnapshot) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
 	}
@@ -178,7 +178,7 @@ Because of the case mismatch, the comparison failed — it didn’t find the pro
 
 	// Get a snapshot of all processes in the system
 	hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
-	if (hSnapShot == INVALID_HANDLE_VALUE) {
+	if (INVALID_HANDLE_VALUE == hSnapshot) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
 	}
@@ -188,7 +188,7 @@ Cleanup:
 	if (INVALID_HANDLE_VALUE != hSnapShot) 
 	{
 		(VOID)CloseHandle(hSnapShot);
-		hSnapShot = NULL;
+		hSnapShot = INVALID_HANDLE_VALUE;
 	}
 	return dwResult;
 ```
@@ -227,7 +227,7 @@ GetTargetPid(VOID) {
 	
 	// Get a snapshot of all processes in the system
 	hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
-	if (hSnapShot == INVALID_HANDLE_VALUE) {
+	if (INVALID_HANDLE_VALUE == hSnapshot) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
 	}
@@ -255,7 +255,7 @@ Cleanup:
 	if (INVALID_HANDLE_VALUE != hSnapShot) 
 	{
 		(VOID)CloseHandle(hSnapShot);
-		hSnapShot = NULL;
+		hSnapShot = INVALID_HANDLE_VALUE;
 	}
 	return dwResult;
 }
