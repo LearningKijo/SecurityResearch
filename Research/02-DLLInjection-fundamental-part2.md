@@ -56,6 +56,7 @@ I leanred
  - [x] Loop `do.. while`
  - [x] cleanup - `goto`  
  - [x] cleanup - `CloseHandle()`
+ - [x] common prefixes in C
 
 
 ### 1. Header
@@ -193,6 +194,22 @@ Cleanup:
 	return dwResult;
 ```
 
+### 9. Common Prefixes in C
+**Update** .... Adding prefixes to variable names — commonly known as Hungarian notation — can improve code readability and maintainability, 
+especially in C or Win32 API codebases where type information isn't always obvious.
+
+| Prefix | Meaning                        | Example                 | Notes                                 |
+|:-------|:-------------------------------|:------------------------|:--------------------------------------|
+| h      | Handle                         | `hProcess`, `hFile`     | For HANDLE types (from WinAPI)        |
+| dw     | DWORD (32-bit unsigned int)    | `dwSize`, `dwFlags`     | Often used in Win32 API               |
+| w      | WORD (16-bit unsigned int)     | `wParam`                | Legacy, less common today             |
+| b      | Boolean                        | `bIsRunning`            | For `BOOL` or `bool` values           |
+| sz     | Zero-terminated string         | `szPath`, `szName`      | For `char[]` or `WCHAR[]` strings     |
+| c      | Count                          | `cItems`, `cChars`      | For counts (like number of elements)  |
+| n      | Integer number                 | `nIndex`, `nCount`      | General purpose for int variables     |
+| p      | Pointer                        | `pData`, `pBuffer`      | For pointer variables                 |
+| lp     | Long pointer                   | `lpBuffer`, `lpfnWndProc` | Historic from 16-bit Windows        |
+
 ## 3. Sharing the function result
 Let's set a breakpoint at each step we want to confirm in the GetTargetPid function.
 
@@ -213,18 +230,18 @@ Let's set a breakpoint at each step we want to confirm in the GetTargetPid funct
 #include <windows.h>  //  Enables use of Windows API functions
 #include <tlhelp32.h> //  Provides functions - CreateToolhelp32Snapshot
 
-#define TARGET_PROCESS L"notepad.exe" //  Target process name to search for
+#define TARGET_PROCESS (L"Notepad.exe") //  Target process name to search for
 
-DWORD 
+DWORD
 GetTargetPid(VOID) {
 
 	HANDLE hSnapShot = INVALID_HANDLE_VALUE;
-	PROCESSENTRY32W procInfo = {0}; // initialize result variable to 0
+	PROCESSENTRY32W procInfo = { 0 }; // initialize result variable to 0
 	DWORD dwResult = 0; // initialize result variable to 0
-	
+
 	// Get a snapshot of all processes in the system
 	hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
-	if (INVALID_HANDLE_VALUE == hSnapshot) {
+	if (INVALID_HANDLE_VALUE == hSnapShot) {
 		printf("CreateToolhelp32Snapshot failed\n");
 		goto Cleanup;
 	}
@@ -248,8 +265,8 @@ GetTargetPid(VOID) {
 	} while (Process32NextW(hSnapShot, &procInfo));
 
 Cleanup:
-	
-	if (INVALID_HANDLE_VALUE != hSnapShot) 
+
+	if (INVALID_HANDLE_VALUE != hSnapShot)
 	{
 		(VOID)CloseHandle(hSnapShot);
 		hSnapShot = INVALID_HANDLE_VALUE;
@@ -257,7 +274,7 @@ Cleanup:
 	return dwResult;
 }
 
-INT 
+INT
 main()
 {
 	DWORD dwTargetPid = 0;
@@ -274,8 +291,13 @@ Cleanup:
 	return 0;  // Return 0 to indicate successful execution
 }
 ```
+
 ---
+
+```
 Updated 23/04/2025 - First version
+Updated 25/04/2025 - Updated code fix, common prefixes
+```
 
 #### Disclaimer
 The views and opinions expressed herein are those of the author and do not necessarily reflect the views of company.
